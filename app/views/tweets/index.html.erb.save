@@ -1,0 +1,81 @@
+  <script src="/assets/raphael.js"></script>
+  <script src="/assets/popup.js"></script>
+  <script src="/assets/jquery.js"></script>
+  <script src="/assets/analytics.js"></script>
+  <style>
+    img {
+      float: left;
+    }
+  </style>
+  <style type="text/css" media="screen">
+      #holder {
+          height: 250px;
+          margin: 0px 0px 0px -100px;
+          width: 800px;
+          }
+  </style>
+</head>
+
+
+
+
+<div class="center jumbotron">
+
+  <div align="left">
+    <%= image_tag("borb.png") %>
+  </div>
+
+  <div style="clear:left">
+
+    <h1 align="center">Tweets containing 'Deadpool'</h1>
+    
+    </br>
+
+    <body>
+
+      <div align="center">
+        <table id="data">
+          <tfoot>
+              <tr>
+                  <th>Mon</th>
+                  <th>Tue</th>
+                  <th>Wed</th>
+                  <th>Thu</th>
+                  <th>Fri</th>
+                  <th>Sat</th>
+                  <th>Sun</th>
+              </tr>
+          </tfoot>
+          <tbody>
+              <tr>
+                  <td> <%= Tweet.where("strftime('%w', created_at) + 0 = ?", 1).count %> </td>
+                  <td> <%= Tweet.where("strftime('%w', created_at) + 0 = ?", 2).count %> </td>
+                  <td> <%= Tweet.where("strftime('%w', created_at) + 0 = ?", 3).count %> </td>
+                  <td> <%= Tweet.where("strftime('%w', created_at) + 0 = ?", 4).count %> </td>
+                  <td> <%= Tweet.where("strftime('%w', created_at) + 0 = ?", 5).count %> </td>
+                  <td> <%= Tweet.where("strftime('%w', created_at) + 0 = ?", 6).count %> </td>
+                  <td> <%= Tweet.where("strftime('%w', created_at) + 0 = ?", 0).count %> </td>
+              </tr>
+          </tbody>
+      </table>
+      <div id="holder"></div>
+      </body>
+    
+      <p>
+
+    <p style="font-size 20px"> Last 25 Tweets: </p>
+
+    <table>
+
+    <% Tweet.last(25).each do |tweet| %>
+    </br>
+    <%= tweet.status %>
+    <% end %>
+    
+     </p>
+
+    </div>
+  </div>
+
+</div>
+

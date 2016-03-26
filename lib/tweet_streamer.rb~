@@ -1,0 +1,23 @@
+ENV["RAILS_ENV"] ||= "production"
+
+root = File.expand_path(File.join(File.dirname(__FILE__), '..'))
+require File.join(root, 'config', 'environment')
+
+log = File.join(root, 'log', 'stream.log')
+
+TweetStream.configure do |config|
+    config.consumer_key       = 'wr7JAZIMFAyCzec7HYc3cxbr7'
+    config.consumer_secret    = 'K6Y5ZhXFfow31KbpvI3fk9M6VROC4K0J5h2uB9jhj27K1dg2z9'
+    config.oauth_token        = '3340572613-jGfW7oIJdi6WkpupHsodIgaZtDCHjQ8y7wzByk8'
+    config.oauth_token_secret = 'TbjqMvehc30G93kGoJft8qSbJr8KtlbQ6PIysBTyQdlDo'
+    config.auth_method        = :oauth
+  end
+
+daemon = TweetStream::Daemon.new('tweet_streamer', log_output: true)
+daemon.on_inited do
+  ActiveRecord::Base.connection.reconnect!
+  ActiveRecord::Base.logger = Logger.new(File.open(log, 'a'))
+end
+daemon.track('Deadpool') do |status|
+  ::Tweet.create_from_status(status)
+end
