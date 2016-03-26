@@ -1,13 +1,12 @@
 # Twitterpated
 
-Added start.rb in project folder to run:
+To run:
 
-  "ruby ./lib/tweet_streamer.rb start"
+Configure database.yml
 
-  and
+Generate secrets.yml
 
-  "clockwork /app/clock.rb"
+Run the streaming service with "ruby ./lib/tweet_streamer.rb start"
 
-  and
+Use clockwork gem to schedule weekly DB wipes: "clockwork /app/clock.rb"
 
-  "rails s -b 192.168.112.133 -p 3000" (obviously this will need to be changed)
